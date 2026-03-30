@@ -1,0 +1,53 @@
+@baseUrl = http://localhost:3000/api
+@currentUserId = 507f1f77bcf86cd799439011
+@otherUserId = 507f1f77bcf86cd799439012
+
+### Health Check
+GET {{baseUrl}}/../health
+
+### Get all messages with a specific user
+GET {{baseUrl}}/messages/{{otherUserId}}
+x-user-id: {{currentUserId}}
+
+### Send a text message
+POST {{baseUrl}}/messages
+Content-Type: application/json
+x-user-id: {{currentUserId}}
+
+{
+  "to": "{{otherUserId}}",
+  "contentMessage": {
+    "type": "text",
+    "content": "Hello, this is a text message!"
+  }
+}
+
+### Send a text message
+POST {{baseUrl}}/messages
+Content-Type: application/json
+x-user-id: {{otherUserId}}
+
+{
+  "to": "{{currentUserId}}",
+  "contentMessage": {
+    "type": "text",
+    "content": "Hi, this is a text message too!"
+  }
+}
+
+### Send a file message
+POST {{baseUrl}}/messages
+Content-Type: application/json
+x-user-id: {{currentUserId}}
+
+{
+  "to": "{{otherUserId}}",
+  "contentMessage": {
+    "type": "file",
+    "content": "https://example.com/files/document.pdf"
+  }
+}
+
+### Get latest messages from all conversations
+GET {{baseUrl}}/messages
+x-user-id: {{currentUserId}}
